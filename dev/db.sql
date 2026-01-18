@@ -1,0 +1,101 @@
+DROP DATABASE IF EXISTS overseer;
+CREATE DATABASE overseer;
+USE overseer;
+
+CREATE TABLE users (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	dc_user_id VARCHAR(50) NOT NULL UNIQUE,
+	dc_username VARCHAR(50) NOT NULL,
+	password_hash CHAR(60) NOT NULL
+) CHARACTER SET utf8mb4;
+
+CREATE TABLE campaigns (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	uid VARCHAR(36) DEFAULT (UUID()) UNIQUE,
+	name VARCHAR(50) NOT NULL
+) CHARACTER SET utf8mb4;
+
+CREATE TABLE campaign_ownerships (
+	owner INTEGER NOT NULL,
+	campaign INTEGER NOT NULL,
+
+	PRIMARY KEY (owner, campaign),
+	FOREIGN KEY (owner) REFERENCES users(id) ON DELETE CASCADE,
+	FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE CASCADE
+) ;
+
+CREATE TABLE chapter_groups (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(50) NOT NULL
+) CHARACTER SET utf8mb4;
+
+CREATE TABLE chapters (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	uid VARCHAR(36) DEFAULT (UUID()) UNIQUE,
+	name VARCHAR(50) NOT NULL,
+	isCanon TINYINT(1) NOT NULL DEFAULT 0,
+	dc_channel_id VARCHAR(50) NOT NULL,
+
+	campaign INTEGER NOT NULL,
+	chapter_group INTEGER NOT NULL,
+
+	FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE CASCADE,
+	FOREIGN KEY (chapter_group) REFERENCES chapter_group(id) ON DELETE CASCADE
+) CHARACTER SET utf8mb4;
+
+CREATE TABLE chapter_group_relations (
+	chapter INTEGER NOT NULL,
+	chapter_group INTEGER NOT NULL,
+
+	PRIMARY KEY (chapter, chapter_group),
+	FOREIGN KEY (chapter) REFERENCES chapters(id) ON DELETE CASCADE,
+	FOREIGN KEY (chapter_group) REFERENCES chapter_groups(id) ON DELETE CASCADE
+);
+
+CREATE TABLE characters (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(50) NOT NULL,
+	boon VARCHAR(255) NOT NULL DEFAULT "Undefined.",
+	bio VARCHAR(255) NOT NULL DEFAULT "Undefined.",
+	profile_picture VARCHAR(127),
+
+	(name, campaign) UNIQUE,
+
+	player INTEGER,
+	campaign INTEGER NOT NULL,
+
+	FOREIGN KEY (player) REFERENCES users(id) ON DELETE CASCADE,
+	FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE CASCADE
+) CHARACTER SET utf8mb4;
+
+CREATE TABLE stats (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	display_name VARCHAR(5) NOT NULL,
+	value INTEGER NOT NULL,
+	character_id INTEGER NOT NULL,
+
+	UNIQUE (character_id, display_name)
+
+	FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
+) CHARACTER SET utf8mb4;
+
+CREATE TABLE threads (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR NOT NULL
+) CHARACTER SET utf8mb4;
+
+CREATE TABLE messages (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	message VARCHAR(4000) NOT NULL,
+	chapter INTEGER NOT NULL,
+	speaker INTEGER NOT NULL,
+	date_sent DATETIME NOT NULL,
+	thread INTEGER,
+
+	FOREIGN KEY (chapter) REFERENCES chapters(id) ON DELETE CASCADE,
+	FOREIGN KEY (speaker) REFERENCES characters(id) ON DELETE CASCADE,
+	FOREIGN KEY (thread) REFERENCES threads(id) ON DELETE CASCADE
+) CHARACTER SET utf8mb4;
+
+CREATE INDEX idx_messages_chapter ON messages(chapter);
+CREATE INDEX idx_messages_speaker ON messages(speaker);
