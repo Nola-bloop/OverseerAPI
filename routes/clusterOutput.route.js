@@ -3,8 +3,8 @@ import controller from "../controllers/clusterOutput.controller.js"
 
 const router = express.Router();
 
-// /character?id
-router.get("/character", (req, res) => {
+// /character/:id
+router.get("/character/:id", (req, res) => {
   try{
     controller.ReadCharacterId(req).then((j) =>{
       res.json(j)
@@ -14,8 +14,8 @@ router.get("/character", (req, res) => {
   }
 });
 
-// /thread?id
-router.get("/thread", (req, res) => {
+// /thread/:id
+router.get("/thread/:id", (req, res) => {
   try{
     controller.ReadThreadId(req).then((j) =>{
       res.json(j)
@@ -25,8 +25,8 @@ router.get("/thread", (req, res) => {
   }
 });
 
-// /message?id
-router.get("/message", (req, res) => {
+// /message/:id
+router.get("/message/:id", (req, res) => {
   try{
     controller.ReadMessageId(req).then((j) =>{
       res.json(j)
@@ -36,8 +36,8 @@ router.get("/message", (req, res) => {
   }
 });
 
-// /chapter?id
-router.get("/chapter", (req, res) => {
+// /chapter/:id
+router.get("/chapter/:id", (req, res) => {
   try{
     controller.ReadChapterId(req).then((j) =>{
       res.json(j)
@@ -47,8 +47,8 @@ router.get("/chapter", (req, res) => {
   }
 });
 
-// /chapterGroup?id
-router.get("/chapterGroup", (req, res) => {
+// /chapterGroup/:id
+router.get("/chapterGroup/:id", (req, res) => {
   try{
     controller.ReadChapterGroupId(req).then((j) =>{
       res.json(j)
@@ -58,8 +58,8 @@ router.get("/chapterGroup", (req, res) => {
   }
 });
 
-// /campaign?id
-router.get("/campaign", (req, res) => {
+// /campaign/:id
+router.get("/campaign/:id", (req, res) => {
   try{
     controller.ReadCampaignId(req).then((j) =>{
       res.json(j)

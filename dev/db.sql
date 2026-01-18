@@ -26,7 +26,10 @@ CREATE TABLE campaign_ownerships (
 
 CREATE TABLE chapter_groups (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
-	name VARCHAR(50) NOT NULL
+	name VARCHAR(50) NOT NULL,
+	campaign INTEGER NOT NULL,
+	
+	FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE CASCADE
 ) CHARACTER SET utf8mb4;
 
 CREATE TABLE chapters (
@@ -40,7 +43,7 @@ CREATE TABLE chapters (
 	chapter_group INTEGER NOT NULL,
 
 	FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE CASCADE,
-	FOREIGN KEY (chapter_group) REFERENCES chapter_group(id) ON DELETE CASCADE
+	FOREIGN KEY (chapter_group) REFERENCES chapter_groups(id) ON DELETE CASCADE
 ) CHARACTER SET utf8mb4;
 
 CREATE TABLE chapter_group_relations (
@@ -59,7 +62,7 @@ CREATE TABLE characters (
 	bio VARCHAR(255) NOT NULL DEFAULT "Undefined.",
 	profile_picture VARCHAR(127),
 
-	(name, campaign) UNIQUE,
+	UNIQUE (name, campaign),
 
 	player INTEGER,
 	campaign INTEGER NOT NULL,
@@ -74,14 +77,14 @@ CREATE TABLE stats (
 	value INTEGER NOT NULL,
 	character_id INTEGER NOT NULL,
 
-	UNIQUE (character_id, display_name)
+	UNIQUE (character_id, display_name),
 
 	FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
 ) CHARACTER SET utf8mb4;
 
 CREATE TABLE threads (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
-	name VARCHAR NOT NULL
+	name VARCHAR(50) NOT NULL
 ) CHARACTER SET utf8mb4;
 
 CREATE TABLE messages (
@@ -93,8 +96,7 @@ CREATE TABLE messages (
 	thread INTEGER,
 
 	FOREIGN KEY (chapter) REFERENCES chapters(id) ON DELETE CASCADE,
-	FOREIGN KEY (speaker) REFERENCES characters(id) ON DELETE CASCADE,
-	FOREIGN KEY (thread) REFERENCES threads(id) ON DELETE CASCADE
+	FOREIGN KEY (speaker) REFERENCES characters(id) ON DELETE CASCADE
 ) CHARACTER SET utf8mb4;
 
 CREATE INDEX idx_messages_chapter ON messages(chapter);

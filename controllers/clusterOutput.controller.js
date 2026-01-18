@@ -1,12 +1,13 @@
 import model from "../models/clusterOutput.model.js"
 
-const internals = {
+let internals
+internals = {
 	ReadAnyId : async(table, id) => {
 		let thing = await model.ReadAnyId(table, id)
 		return thing ?? {response:"Nothing found."}
 	},
 	ReadMessageId : async(id) => {
-		let message = await this.ReadAnyId("messages", id)
+		let message = await internals.ReadAnyId("messages", id)
 
 		if (!message) return {response:"No message found."}
 
@@ -19,7 +20,7 @@ const internals = {
 		return message
 	},
 	ReadChapterId : async(id) => {
-		let chapter = await this.ReadAnyId("chapters", id)
+		let chapter = await internals.ReadAnyId("chapters", id)
 
 		if (!chapter) return {response:"No chapter found."}
 
@@ -30,7 +31,7 @@ const internals = {
 		return chapter
 	},
 	ReadChapterGroupId : async(id) => {
-		let chapterGroup = await this.ReadAnyId("chapter_groups", id)
+		let chapterGroup = await internals.ReadAnyId("chapter_groups", id)
 
 		if (!chapterGroup) return {response:"No chapter group found."}
 
@@ -45,7 +46,7 @@ const internals = {
 		return chapterGroup
 	},
 	ReadCampaignId : async(id) => {
-		let campaign = await this.ReadAnyId("chapter_groups", id)
+		let campaign = await internals.ReadAnyId("chapter_groups", id)
 
 		if (!campaign) return {response:"No chapter group found."}
 
