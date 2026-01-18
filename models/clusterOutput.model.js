@@ -51,7 +51,7 @@ export default {
 	},
 	ReadChapterByCampaignAndDiscordId : async (campaignId, dc_channel_id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT chapters.* FROM chapters INNER JOIN chapter_groups ON chapters.chapter_group = chapter_groups.id INNER JOIN campaign ON chapter_groups.campaign WHERE campaign.id = ? AND chapter.dc_channel_id = ?`, [campaignId, dc_channel_id], (e, results) => {
+			con.query(`SELECT chapters.* FROM chapters INNER JOIN chapter_groups ON chapters.chapter_group = chapter_groups.id INNER JOIN campaigns ON chapter_groups.campaign WHERE campaigns.id = ? AND chapter.dc_channel_id = ?`, [campaignId, dc_channel_id], (e, results) => {
 				if (!e) resolve(results[1])
 				else reject(e)
 			})
