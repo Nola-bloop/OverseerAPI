@@ -11,7 +11,7 @@ export default {
 	},
 	ReadMessagesByChapterId : async (id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT messages.* FROM messages INNER JOIN chapters ON messages.chapter = chapters.id WHERE chapters.id = ?`, [id], (e, results) => {
+			con.query(`SELECT messages.* FROM messages INNER JOIN chapters ON messages.chapter = chapters.id WHERE chapters.id = ? ORDER BY messages.date_sent`, [id], (e, results) => {
 				if (!e) resolve(results)
 				else reject(e)
 			})
@@ -19,7 +19,7 @@ export default {
 	},
 	ReadChaptersByChapterGroupId : async (id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT chapters.* FROM chapters INNER JOIN chapter_groups ON chapter.chapter_group = chapter_groups.id WHERE chapter_groups.id = ?`, [id], (e, results) => {
+			con.query(`SELECT chapters.* FROM chapters INNER JOIN chapter_groups ON chapter.chapter_group = chapter_groups.id WHERE chapter_groups.id = ? ORDER BY id`, [id], (e, results) => {
 				if (!e) resolve(results)
 				else reject(e)
 			})
@@ -27,7 +27,7 @@ export default {
 	},
 	ReadChapterGroupsByCampaignId : async (id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT chapter_groups.* FROM chapter_groups INNER JOIN campaigns ON chapter_groups.campaign = campaigns.id WHERE campaigns.id = ?`, [id], (e, results) => {
+			con.query(`SELECT chapter_groups.* FROM chapter_groups INNER JOIN campaigns ON chapter_groups.campaign = campaigns.id WHERE campaigns.id = ? ORDER BY id`, [id], (e, results) => {
 				if (!e) resolve(results)
 				else reject(e)
 			})
@@ -35,7 +35,7 @@ export default {
 	},
 	ReadChaptersFromCampaignId : async (id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT chapters.* FROM chapters INNER JOIN chapter_groups ON chapters.chapter_group = chapter_groups.id INNER JOIN campaigns ON chapter_groups.campaign = campaigns.id WHERE campaigns.id = ?`, [id], (e, results) => {
+			con.query(`SELECT chapters.* FROM chapters INNER JOIN chapter_groups ON chapters.chapter_group = chapter_groups.id INNER JOIN campaigns ON chapter_groups.campaign = campaigns.id WHERE campaigns.id = ? ORDER BY id`, [id], (e, results) => {
 				if (!e) resolve(results)
 				else reject(e)
 			})
