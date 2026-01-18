@@ -25,4 +25,12 @@ export default {
 			})
 		})
 	},
+	SetNewPasswordHash : async (id, password_hash) =>{
+		return new Promise((resolve, reject) => {
+			con.query("UPDATE users SET password_hash = ? WHERE id = ?", [password_hash, id], (e, results) => {
+				if (!e) resolve("success.")
+				else reject(e)
+			})
+		})
+	}
 }

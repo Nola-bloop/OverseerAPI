@@ -11,12 +11,18 @@ export default {
 
 		const hash = await argon2.hash(req.query.passwordClear);
 
-		await model.Create(
-			req.query.discordId, 
-			req.query.discordUsername, 
-			hash
-		)
+		const user = await model.ReadId(req.params.discordId)
+		if (user) {
+			await model.SetNewPasswordHash(user.id, hash)
+		}else{
+			await model.Create(
+				req.query.discordId, 
+				req.query.discordUsername, 
+				hash
+			)
+		}
 		return {response:"success"}
+
 	},
 	ReadId : async (req) => {
 		if (
