@@ -23,6 +23,8 @@ export default {
 		return await model.InsertChapterGroup(req.query.name, req.query.campaign)
 	},
 	InsertChapter : async (req) => {
+		console.log(`${req.query.name}, ${req.query.isCanon}, ${req.query.dcChannelId}`)
+
 		if (
 			!req.query.name ||
 			!req.query.isCanon ||
