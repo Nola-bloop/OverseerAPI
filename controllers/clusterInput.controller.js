@@ -26,9 +26,7 @@ export default {
 		if (
 			!req.query.name ||
 			!req.query.isCanon ||
-			!req.query.dcChannelId ||
-			!req.query.campaign ||
-			!req.query.chapterGroup
+			!req.query.dcChannelId
 		) return {response:"missing query param"}
 
 		return await model.InsertChapter(req.query.name, req.query.isCanon, req.query.dcChannelId, req.query.campaign, req.query.chapterGroup)
