@@ -47,7 +47,7 @@ router.get("/message", (req, res) => {
   }
 });
 
-// /thread?name
+// /thread?name&dc_thread_id
 router.get("/thread", (req, res) => {
   try{
     controller.InsertCampaign(req).then((j) =>{

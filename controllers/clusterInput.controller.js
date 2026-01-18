@@ -8,10 +8,11 @@ internals = {
 export default {
 	InsertCampaign : async (req) => {
 		if (
-			!req.query.name
+			!req.query.name ||
+			!req.query.dc_guild_id
 		) return {response:"missing query param"}
 
-		return await model.InsertCampaign(req.query.name)
+		return await model.InsertCampaign(req.query.name, req.query.dc_guild_id)
 	},
 	InsertChapterGroup : async (req) => {
 		if (
@@ -57,9 +58,10 @@ export default {
 	},
 	InsertThread : async (req) => {
 		if (
-			!req.query.name
+			!req.query.name ||
+			!req.query.dc_thread_id
 		) return {response:"missing query param"}
 
-		return await model.InsertThread(req.query.name)
+		return await model.InsertThread(req.query.name, req.query.dc_thread_id)
 	},
 }

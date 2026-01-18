@@ -41,4 +41,12 @@ export default {
 			})
 		})
 	},
+	ReadCampaignByGuildId : async (dc_guild_id) => {
+		return new Promise((resolve, reject) =>{
+			con.query(`SELECT campaigns.* FROM campaigns WHERE dc_guild_id = ?`, [dc_guild_id], (e, results) => {
+				if (!e) resolve(results[1])
+				else reject(e)
+			})
+		})
+	}
 }

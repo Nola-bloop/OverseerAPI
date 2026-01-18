@@ -58,8 +58,19 @@ router.get("/chapterGroup/:id", (req, res) => {
   }
 });
 
-// /campaign/:id
-router.get("/campaign/:id", (req, res) => {
+// /campaign/id/:id
+router.get("/campaign/id/:id", (req, res) => {
+  try{
+    controller.ReadCampaignId(req).then((j) =>{
+      res.json(j)
+    })
+  }catch(e){
+    res.json({error:e.toString})
+  }
+});
+
+// /campaign/guild/:dc_guild_id
+router.get("/campaign/guild/:dc_guild_id", (req, res) => {
   try{
     controller.ReadCampaignId(req).then((j) =>{
       res.json(j)

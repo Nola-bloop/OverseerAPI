@@ -45,10 +45,8 @@ internals = {
 
 		return chapterGroup
 	},
-	ReadCampaignId : async(id) => {
-		let campaign = await internals.ReadAnyId("chapter_groups", id)
-
-		if (!campaign) return {response:"No chapter group found."}
+	BuildCampaignObject : async(campaign) =>{
+		if (!campaign) return {response:"No campaign found."}
 
 		let chapterGroups = await model.ReadChapterGroupsByCampaignId(campaign.id)
 		let chapters = await model.ReadChaptersFromCampaignId(campaign.id)
@@ -118,6 +116,17 @@ export default {
 			!req.params.id
 		) return {response:"missing param"}
 
-		return await internals.ReadCampaignId(req.params.id)
+		let campaign = internals.ReadAnyId("campaigns", req.params.id)
+
+		return await internals.BuildCampaignObject(campaign)
+	},
+	ReadCampaignGuild : async (req) => {
+		if (
+			!req.params.dc_guild_id
+		) return {response:"missing param"}
+
+		let campaign = internals.ReadCampaignByGuildId(req.params.dc_guild_id)
+
+		return await internals.BuildCampaignObject(campaign)
 	},
 }
