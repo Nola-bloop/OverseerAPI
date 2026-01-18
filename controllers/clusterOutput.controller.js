@@ -30,9 +30,7 @@ internals = {
 
 		return chapter
 	},
-	ReadChapterGroupId : async(id) => {
-		let chapterGroup = await internals.ReadAnyId("chapter_groups", id)
-
+	BuildChapterGroupObject : async (chapterGroup) => {
 		if (!chapterGroup) return {response:"No chapter group found."}
 
 		let chapters = await model.ReadChaptersByChapterGroupId(chapterGroup.id)
@@ -70,6 +68,7 @@ internals = {
 		return campaign
 	},
 }
+export internals
 
 
 export default {
@@ -104,12 +103,30 @@ export default {
 
 		return await internals.ReadChapterId(req.params.id)
 	},
+	ReadChapterByCampaignAndDiscordId : async (req) => {
+		if (
+			!req.params.campaignId ||
+			!req.params.dc_channel_id
+		) return {response:"missing param"}
+
+		return await internals.ReadChapterByCampaignAndDiscordId(req.params.campaignId, req.params.dc_channel_id)
+	},
 	ReadChapterGroupId : async (req) => {
 		if (
 			!req.params.id
 		) return {response:"missing param"}
 
-		return await internals.ReadChapterGroupId(req.params.id)
+		let chapterGroup = internals.ReadAnyId("chapter_groups", req.params.id)
+
+		return await internals.BuildChapterGroupObject(chapterGroup)
+	},
+	ReadChapterGroupByPair : async (req) => {
+		if (
+			!req.params.campaignId ||
+			!req.params.name
+		) return {response:"missing param"}
+
+		return await internals.ReadChapterGroupByPair(req.params.campaignId, req.params.name)
 	},
 	ReadCampaignId : async (req) => {
 		if (

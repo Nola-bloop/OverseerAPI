@@ -29,6 +29,8 @@ CREATE TABLE chapter_groups (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	name VARCHAR(50) NOT NULL,
 	campaign INTEGER NOT NULL,
+
+	UNIQUE (name, campaign)
 	
 	FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE CASCADE
 ) CHARACTER SET utf8mb4;

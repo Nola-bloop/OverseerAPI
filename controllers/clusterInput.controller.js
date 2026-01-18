@@ -1,9 +1,5 @@
 import model from "../models/clusterInput.model.js"
-
-let internals
-internals = {
-
-}
+import internals from "./clusterOutput.controller.js"
 
 export default {
 	InsertCampaign : async (req) => {
@@ -20,6 +16,10 @@ export default {
 			!req.query.campaign
 		) return {response:"missing query param"}
 
+		let chapter = internals.ReadChapterGroupByCampaignAndName(req.query.campaign, req.query.name)
+
+		if (chapter) return {response:"Nothing to do."}
+
 		return await model.InsertChapterGroup(req.query.name, req.query.campaign)
 	},
 	InsertChapter : async (req) => {
@@ -32,6 +32,14 @@ export default {
 		) return {response:"missing query param"}
 
 		return await model.InsertChapter(req.query.name, req.query.isCanon, req.query.dcChannelId, req.query.campaign, req.query.chapterGroup)
+	},
+	UpdateChapterToGroupRelation : async (req) => {
+		if (
+			!req.query.chapterGroup ||
+			!req.query.chapterId
+		) return {response:"missing query param"}
+
+		return await model.InsertChapter(req.query.chapterGroup, req.query.chapterId)
 	},
 	InsertMessage : async (req) => {
 		if (

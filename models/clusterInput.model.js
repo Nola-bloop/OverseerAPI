@@ -17,9 +17,25 @@ export default {
 			})
 		})
 	},
+	UpdateChapterGroup : async (name, campaign, id) => {
+		return new Promise((resolve, reject) =>{
+			con.query(`UPDATE chapter_groups SET name = ?, campaign = ? WHERE id = ?`, [name, campaign, id], (e, results) => {
+				if (!e) resolve("success")
+				else reject(e)
+			})
+		})
+	},
 	InsertChapter : async (name, isCanon, dc_channel_id, campaign, chapter_group) => {
 		return new Promise((resolve, reject) =>{
 			con.query(`INSERT INTO chapters (name, isCanon, dc_channel_id, campaign, chapter_group) VALUES (?, ?, ?, ?, ?)`, [name, isCanon, dc_channel_id, campaign, chapter_group], (e, results) => {
+				if (!e) resolve("success")
+				else reject(e)
+			})
+		})
+	},
+	UpdateChapterToGroupRelation : async (chapter_group, id) => {
+		return new Promise((resolve, reject) =>{
+			con.query(`UPDATE chapters SET chapter_group = ? WHERE id = ?`, [chapter_group, id], (e, results) => {
 				if (!e) resolve("success")
 				else reject(e)
 			})

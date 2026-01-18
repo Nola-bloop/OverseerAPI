@@ -57,3 +57,14 @@ router.get("/thread", (req, res) => {
     res.json({error:e.toString})
   }
 });
+
+// /chapter?chapterGroup&chapterId
+router.put("/chapter", (req, res) => {
+  try{
+    controller.UpdateChapterToGroupRelation(req).then((j) =>{
+      res.json(j)
+    })
+  }catch(e){
+    res.json({error:e.toString})
+  }
+});

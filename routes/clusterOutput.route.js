@@ -80,4 +80,26 @@ router.get("/campaign/guild/:dc_guild_id", (req, res) => {
   }
 });
 
+// /chapter/campchanid/:campaignId/:dc_channel_id
+router.get("/chapter/campchanid/:campaignId/:dc_channel_id", (req, res) => {
+  try{
+    controller.ReadChapterByCampaignAndDiscordId(req).then((j) =>{
+      res.json(j)
+    })
+  }catch(e){
+    res.json({error:e.toString})
+  }
+});
+
+// /chapterGroup/pair/:campaignId/:name
+router.get("/chapterGroup/pair/:campaignId/:name", (req, res) => {
+  try{
+    controller.ReadChapterGroupByPair(req).then((j) =>{
+      res.json(j)
+    })
+  }catch(e){
+    res.json({error:e.toString})
+  }
+});
+
 export default router;
