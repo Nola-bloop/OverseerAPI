@@ -56,7 +56,7 @@ export default {
 				else reject(e)
 			})
 		})
-	}
+	},
 	ReadChapterGroupByPair : async (campaignId, name) => {
 		return new Promise((resolve, reject) =>{
 			con.query(`SELECT chapter_groups.* FROM chapter_groups WHERE campaign.id = ? AND name = ?`, [campaignId, name], (e, results) => {
@@ -64,5 +64,5 @@ export default {
 				else reject(e)
 			})
 		})
-	}
+	},
 }

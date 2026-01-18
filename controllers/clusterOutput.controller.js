@@ -1,7 +1,6 @@
 import model from "../models/clusterOutput.model.js"
 
-let internals
-internals = {
+const internals = {
 	ReadAnyId : async(table, id) => {
 		let thing = await model.ReadAnyId(table, id)
 		return thing ?? {response:"Nothing found."}
@@ -11,17 +10,15 @@ internals = {
 
 		if (!message) return {response:"No message found."}
 
-		let speaker = await internals.ReadCharacterId(message.speaker)
-		let thread = await internals.ReadThreadId(message.thread)
+		let speaker = await internals.ReadAnyId("characters", message.speaker)
+		let thread = await internals.ReadAnyId("threads", message.thread)
 
 		message.speaker = speaker
 		message.thread = thread
 
 		return message
 	},
-	ReadChapterId : async(id) => {
-		let chapter = await internals.ReadAnyId("chapters", id)
-
+	BuildChapterObject : async(chapter) => {
 		if (!chapter) return {response:"No chapter found."}
 
 		let messages = await model.ReadMessagesByChapterId(chapter.id)
@@ -53,11 +50,11 @@ internals = {
 		campaign.chapter_groups = chapterGroups
 
 		for(let i = 0; i < chapterGroups.length; i++){
-			chapterGroup[i].chapters = []
+			chapterGroups[i].chapters = []
 		}
 
 		for (let i = 0; i < chapters.length; i++){
-			for (let k = 0; j < chapterGroups.length; j++){
+			for (let j = 0; j < chapterGroups.length; j++){
 				if (chapters[i].chapter_group === chapterGroups[j].id){
 					chapters[i].messages = "unloaded"
 					chapterGroups[j].chapters.push(chapters[i])
@@ -68,7 +65,8 @@ internals = {
 		return campaign
 	},
 }
-export internals
+export { internals }
+
 
 
 export default {
@@ -101,22 +99,24 @@ export default {
 			!req.params.id
 		) return {response:"missing param"}
 
-		return await internals.ReadChapterId(req.params.id)
+		let chapter = await internals.ReadAnyId("chapters", req.params.id)
+		return await internals.BuildChapterObject(chapter)
 	},
 	ReadChapterByCampaignAndDiscordId : async (req) => {
 		if (
 			!req.params.campaignId ||
 			!req.params.dc_channel_id
 		) return {response:"missing param"}
+		let chapter = await model.ReadChapterByCampaignAndDiscordId(req.params.campaignId, req.params.dc_channel_id)
 
-		return await internals.ReadChapterByCampaignAndDiscordId(req.params.campaignId, req.params.dc_channel_id)
+		return await internals.BuildChapterObject(chapter)
 	},
 	ReadChapterGroupId : async (req) => {
 		if (
 			!req.params.id
 		) return {response:"missing param"}
 
-		let chapterGroup = internals.ReadAnyId("chapter_groups", req.params.id)
+		let chapterGroup = await internals.ReadAnyId("chapter_groups", req.params.id)
 
 		return await internals.BuildChapterGroupObject(chapterGroup)
 	},
@@ -126,14 +126,15 @@ export default {
 			!req.params.name
 		) return {response:"missing param"}
 
-		return await internals.ReadChapterGroupByPair(req.params.campaignId, req.params.name)
+		let chapterGroup = await model.ReadChapterGroupByPair(req.params.campaignId, req.params.name)
+		return await internals.BuildChapterGroupObject(chapterGroup)
 	},
 	ReadCampaignId : async (req) => {
 		if (
 			!req.params.id
 		) return {response:"missing param"}
 
-		let campaign = internals.ReadAnyId("campaigns", req.params.id)
+		let campaign = await internals.ReadAnyId("campaigns", req.params.id)
 
 		return await internals.BuildCampaignObject(campaign)
 	},
@@ -142,7 +143,7 @@ export default {
 			!req.params.dc_guild_id
 		) return {response:"missing param"}
 
-		let campaign = internals.ReadCampaignByGuildId(req.params.dc_guild_id)
+		let campaign = await model.ReadCampaignByGuildId(req.params.dc_guild_id)
 
 		return await internals.BuildCampaignObject(campaign)
 	},
