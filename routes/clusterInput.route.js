@@ -69,3 +69,5 @@ router.put("/chapter", (req, res) => {
     res.json({error:e.toString})
   }
 });
+
+export default router;
