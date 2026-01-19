@@ -126,7 +126,10 @@ export default {
 
 		chapters = await Promise.all(
 			chapters.map(
-				ch => internals.BuildChapterObject(ch)
+				ch => {
+					internals.BuildChapterObject(ch)
+					ch.messages = "unloaded"
+				}
 			)
 		)
 
