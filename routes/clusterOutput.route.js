@@ -72,7 +72,7 @@ router.get("/campaign/id/:id", (req, res) => {
 // /campaign/guild/:dc_guild_id
 router.get("/campaign/guild/:dc_guild_id", (req, res) => {
   try{
-    controller.ReadCampaignId(req).then((j) =>{
+    controller.ReadCampaignGuild(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
