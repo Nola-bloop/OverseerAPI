@@ -163,7 +163,7 @@ export default {
 		) return {response:"missing param"}
 
 		let campaign = await internals.ReadAnyId("campaigns", req.params.id)
-		console.log("uniselect : "+campaign)
+		console.log("uniselect : "+campaign.name)
 
 		return await internals.BuildCampaignObject(campaign)
 	},
