@@ -57,6 +57,9 @@ const internals = {
 		let chapterGroups = await model.ReadChapterGroupsByCampaignId(campaign.id)
 		let chapters = await model.ReadChaptersFromCampaignId(campaign.id)
 
+		console.log(chapterGroups)
+		console.log(chapters)
+
 		for(let i = 0; i < chapterGroups.length; i++){
 			chapterGroups[i].chapters = []
 		}
