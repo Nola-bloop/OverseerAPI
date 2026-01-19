@@ -116,6 +116,20 @@ export default {
 
 		return await internals.BuildChapterObject(chapter)
 	},
+	ReadAllChaptersFromCampaign : async (req) => {
+		if (
+			!req.params.campaignId
+		) return {response:"missing param"}
+		let chapters = await model.ReadAllChaptersFromCampaign(req.params.campaignId)
+
+		if (!chapters || chapters.length === 0) return []
+
+		for (let i = 0; i < chapters.length; i++){
+			chapters[i] = await internals.BuildChapterObject(chapter)
+		}
+
+		return chapters
+	},
 	ReadChapterGroupId : async (req) => {
 		if (
 			!req.params.id

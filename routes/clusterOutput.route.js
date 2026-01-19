@@ -47,6 +47,17 @@ router.get("/chapter/:id", async (req, res) => {
   }
 });
 
+// /chapter/all/:campaignId
+router.get("/chapter/all/:campaignId", async (req, res) => {
+  try{
+    await controller.ReadAllChaptersFromCampaign(req).then((j) =>{
+      res.json(j)
+    })
+  }catch(e){
+    res.json({error:e.toString})
+  }
+});
+
 // /chapterGroup/:id
 router.get("/chapterGroup/:id", async (req, res) => {
   try{

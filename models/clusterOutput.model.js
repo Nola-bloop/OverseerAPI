@@ -65,4 +65,12 @@ export default {
 			})
 		})
 	},
+	ReadAllChaptersFromCampaign : async (campaignId) => {
+		return new Promise((resolve, reject) =>{
+			con.query(`SELECT chapters.* FROM chapters WHERE chapters.campaign = ?`, [campaignId], (e, results) => {
+				if (!e) resolve(results)
+				else reject(e)
+			})
+		})
+	}
 }
