@@ -124,9 +124,11 @@ export default {
 
 		if (!chapters || chapters.length === 0) return []
 
-		for (let i = 0; i < chapters.length; i++){
-			chapters[i] = await internals.BuildChapterObject(chapter)
-		}
+		chapters = await Promise.all(
+			chapters.map(
+				ch => internals.BuildChapterObject(ch)
+			)
+		)
 
 		return chapters
 	},
