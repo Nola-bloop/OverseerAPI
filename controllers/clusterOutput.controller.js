@@ -18,13 +18,18 @@ const internals = {
 
 		return message
 	},
-	BuildChapterObject : async(chapter) => {
+	BuildChapterObject : async(chapter, skipMessages) => {
 		if (!chapter) return {response:"No chapter found."}
 
-		let messages = await model.ReadMessagesByChapterId(chapter.id)
+		let messages
+		if (skipMessages) 
+			messages = "unloaded"
+		else{
+			messages = await model.ReadMessagesByChapterId(chapter.id)
 
-		for (let i = 0; i < messages.length; i++) {
-    		messages[i] = await internals.ReadMessageId(messages[i].id)
+			for (let i = 0; i < messages.length; i++) {
+				messages[i] = await internals.ReadMessageId(messages[i].id)
+			}
 		}
 
 
@@ -126,10 +131,7 @@ export default {
 
 		chapters = await Promise.all(
 			chapters.map(
-				ch => {
-					internals.BuildChapterObject(ch)
-					ch.messages = "unloaded"
-				}
+				ch => internals.BuildChapterObject(ch, true)
 			)
 		)
 
