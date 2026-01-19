@@ -27,7 +27,6 @@ router.get("/chapterGroup", (req, res) => {
 
 // /chapter?name&isCanon&dcChannelId&campaign&chapterGroup
 router.get("/chapter", (req, res) => {
-  console.log(req)
   try{
     controller.InsertChapter(req).then((j) =>{
       res.json(j)
