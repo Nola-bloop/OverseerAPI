@@ -19,7 +19,7 @@ export default {
 	},
 	ReadChaptersByChapterGroupId : async (id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT chapters.* FROM chapters INNER JOIN chapter_groups ON chapter.chapter_group = chapter_groups.id WHERE chapter_groups.id = ? ORDER BY id`, [id], (e, results) => {
+			con.query(`SELECT chapters.* FROM chapters INNER JOIN chapter_groups ON chapters.chapter_group = chapter_groups.id WHERE chapter_groups.id = ? ORDER BY id`, [id], (e, results) => {
 				if (!e) resolve(results)
 				else reject(e)
 			})
@@ -44,7 +44,7 @@ export default {
 	ReadCampaignByGuildId : async (dc_guild_id) => {
 		return new Promise((resolve, reject) =>{
 			con.query(`SELECT campaigns.* FROM campaigns WHERE dc_guild_id = ?`, [dc_guild_id], (e, results) => {
-				if (!e) resolve(results[1])
+				if (!e) resolve(results[0])
 				else reject(e)
 			})
 		})
@@ -52,15 +52,15 @@ export default {
 	ReadChapterByCampaignAndDiscordId : async (campaignId, dc_channel_id) => {
 		return new Promise((resolve, reject) =>{
 			con.query(`SELECT chapters.* FROM chapters INNER JOIN chapter_groups ON chapters.chapter_group = chapter_groups.id INNER JOIN campaigns ON chapter_groups.campaign = campaigns.id WHERE campaigns.id = ? AND chapters.dc_channel_id = ?`, [campaignId, dc_channel_id], (e, results) => {
-				if (!e) resolve(results[1])
+				if (!e) resolve(results[0])
 				else reject(e)
 			})
 		})
 	},
 	ReadChapterGroupByPair : async (campaignId, name) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT chapter_groups.* FROM chapter_groups WHERE campaign.id = ? AND name = ?`, [campaignId, name], (e, results) => {
-				if (!e) resolve(results[1])
+			con.query(`SELECT chapter_groups.* FROM chapter_groups WHERE campaigns.id = ? AND name = ?`, [campaignId, name], (e, results) => {
+				if (!e) resolve(results[0])
 				else reject(e)
 			})
 		})

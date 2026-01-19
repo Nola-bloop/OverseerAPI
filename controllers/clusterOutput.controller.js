@@ -23,6 +23,11 @@ const internals = {
 
 		let messages = await model.ReadMessagesByChapterId(chapter.id)
 
+		for (let i = 0; i < messages.length; i++) {
+    		messages[i] = await internals.ReadMessageId(messages[i].id)
+		}
+
+
 		chapter.messages = messages
 
 		return chapter
@@ -53,14 +58,14 @@ const internals = {
 			chapterGroups[i].chapters = []
 		}
 
-		for (let i = 0; i < chapters.length; i++){
-			for (let j = 0; j < chapterGroups.length; j++){
-				if (chapters[i].chapter_group === chapterGroups[j].id){
-					chapters[i].messages = "unloaded"
-					chapterGroups[j].chapters.push(chapters[i])
-				}
-			}
-		}
+		const groupMap = new Map()
+		chapterGroups.forEach(g => groupMap.set(g.id, g))
+
+		chapters.forEach(ch => {
+		    ch.messages = "unloaded"
+		    groupMap.get(ch.chapter_group).chapters.push(ch)
+		})
+
 
 		return campaign
 	},

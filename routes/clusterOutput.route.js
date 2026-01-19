@@ -4,9 +4,9 @@ import controller from "../controllers/clusterOutput.controller.js"
 const router = express.Router();
 
 // /character/:id
-router.get("/character/:id", (req, res) => {
+router.get("/character/:id", async (req, res) => {
   try{
-    controller.ReadCharacterId(req).then((j) =>{
+    await controller.ReadCharacterId(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
@@ -15,9 +15,9 @@ router.get("/character/:id", (req, res) => {
 });
 
 // /thread/:id
-router.get("/thread/:id", (req, res) => {
+router.get("/thread/:id", async (req, res) => {
   try{
-    controller.ReadThreadId(req).then((j) =>{
+    await controller.ReadThreadId(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
@@ -26,9 +26,9 @@ router.get("/thread/:id", (req, res) => {
 });
 
 // /message/:id
-router.get("/message/:id", (req, res) => {
+router.get("/message/:id", async (req, res) => {
   try{
-    controller.ReadMessageId(req).then((j) =>{
+    await controller.ReadMessageId(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
@@ -37,9 +37,9 @@ router.get("/message/:id", (req, res) => {
 });
 
 // /chapter/:id
-router.get("/chapter/:id", (req, res) => {
+router.get("/chapter/:id", async (req, res) => {
   try{
-    controller.ReadChapterId(req).then((j) =>{
+    await controller.ReadChapterId(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
@@ -48,9 +48,9 @@ router.get("/chapter/:id", (req, res) => {
 });
 
 // /chapterGroup/:id
-router.get("/chapterGroup/:id", (req, res) => {
+router.get("/chapterGroup/:id", async (req, res) => {
   try{
-    controller.ReadChapterGroupId(req).then((j) =>{
+    await controller.ReadChapterGroupId(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
@@ -59,9 +59,9 @@ router.get("/chapterGroup/:id", (req, res) => {
 });
 
 // /campaign/id/:id
-router.get("/campaign/id/:id", (req, res) => {
+router.get("/campaign/id/:id", async (req, res) => {
   try{
-    controller.ReadCampaignId(req).then((j) =>{
+    await controller.ReadCampaignId(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
@@ -70,9 +70,9 @@ router.get("/campaign/id/:id", (req, res) => {
 });
 
 // /campaign/guild/:dc_guild_id
-router.get("/campaign/guild/:dc_guild_id", (req, res) => {
+router.get("/campaign/guild/:dc_guild_id", async (req, res) => {
   try{
-    controller.ReadCampaignGuild(req).then((j) =>{
+    await controller.ReadCampaignGuild(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
@@ -81,9 +81,9 @@ router.get("/campaign/guild/:dc_guild_id", (req, res) => {
 });
 
 // /chapter/campchanid/:campaignId/:dc_channel_id
-router.get("/chapter/campchanid/:campaignId/:dc_channel_id", (req, res) => {
+router.get("/chapter/campchanid/:campaignId/:dc_channel_id", async (req, res) => {
   try{
-    controller.ReadChapterByCampaignAndDiscordId(req).then((j) =>{
+    await controller.ReadChapterByCampaignAndDiscordId(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
@@ -92,9 +92,9 @@ router.get("/chapter/campchanid/:campaignId/:dc_channel_id", (req, res) => {
 });
 
 // /chapterGroup/pair/:campaignId/:name
-router.get("/chapterGroup/pair/:campaignId/:name", (req, res) => {
+router.get("/chapterGroup/pair/:campaignId/:name", async (req, res) => {
   try{
-    controller.ReadChapterGroupByPair(req).then((j) =>{
+    await controller.ReadChapterGroupByPair(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
