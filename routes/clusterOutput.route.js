@@ -113,4 +113,15 @@ router.get("/chapterGroup/pair/:campaignId/:name", async (req, res) => {
   }
 });
 
+// /campaign/all
+router.get("/campaign/all", async (req, res) => {
+  try{
+    await controller.ReadAllCampaigns(req).then((j) =>{
+      res.json(j)
+    })
+  }catch(e){
+    res.json({error:e.toString})
+  }
+});
+
 export default router;

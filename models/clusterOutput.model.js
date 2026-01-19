@@ -72,5 +72,13 @@ export default {
 				else reject(e)
 			})
 		})
+	},
+	ReadAllCampaigns : async () => {
+		return new Promise((resolve, reject) =>{
+			con.query(`SELECT campaigns.* FROM campaigns`, [], (e, results) => {
+				if (!e) resolve(results)
+				else reject(e)
+			})
+		})
 	}
 }

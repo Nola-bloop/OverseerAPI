@@ -173,4 +173,7 @@ export default {
 
 		return await internals.BuildCampaignObject(campaign)
 	},
+	ReadAllCampaigns : async (req) => {
+		return await model.ReadAllCampaigns()
+	},
 }
