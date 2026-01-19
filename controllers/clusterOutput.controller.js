@@ -51,6 +51,7 @@ const internals = {
 		return chapterGroup
 	},
 	BuildCampaignObject : async(campaign) =>{
+		console.log("Made it to campaign builder")
 		if (!campaign) return {response:"No campaign found."}
 
 		let chapterGroups = await model.ReadChapterGroupsByCampaignId(campaign.id)
@@ -69,6 +70,8 @@ const internals = {
 		})
 
 		campaign.chapter_groups = chapterGroups
+
+		console.log("Built Campaign: "+campaign)
 
 		return campaign
 	},
@@ -154,11 +157,13 @@ export default {
 		return await internals.BuildChapterGroupObject(chapterGroup)
 	},
 	ReadCampaignId : async (req) => {
+		console.log("Made it to campaign/id controller")
 		if (
 			!req.params.id
 		) return {response:"missing param"}
 
 		let campaign = await internals.ReadAnyId("campaigns", req.params.id)
+		console.log("uniselect : "+campaign)
 
 		return await internals.BuildCampaignObject(campaign)
 	},

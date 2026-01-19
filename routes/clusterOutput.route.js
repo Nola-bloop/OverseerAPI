@@ -71,6 +71,7 @@ router.get("/chapterGroup/:id", async (req, res) => {
 
 // /campaign/id/:id
 router.get("/campaign/id/:id", async (req, res) => {
+  console.log("Made it to campaign/id route")
   try{
     await controller.ReadCampaignId(req).then((j) =>{
       res.json(j)
