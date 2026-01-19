@@ -56,9 +56,6 @@ const internals = {
 		let chapterGroups = await model.ReadChapterGroupsByCampaignId(campaign.id)
 		let chapters = await model.ReadChaptersFromCampaignId(campaign.id)
 
-
-		campaign.chapter_groups = chapterGroups
-
 		for(let i = 0; i < chapterGroups.length; i++){
 			chapterGroups[i].chapters = []
 		}
@@ -71,6 +68,7 @@ const internals = {
 		    groupMap.get(ch.chapter_group).chapters.push(ch)
 		})
 
+		campaign.chapter_groups = chapterGroups
 
 		return campaign
 	},
