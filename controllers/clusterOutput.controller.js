@@ -57,6 +57,11 @@ const internals = {
 		let chapterGroups = await model.ReadChapterGroupsByCampaignId(campaign.id)
 		let chapters = await model.ReadChaptersFromCampaignId(campaign.id)
 
+		chapterGroups.push({
+			id: 0,
+			name:"Uncategorized",
+		})
+
 		console.log(chapterGroups)
 		console.log(chapters)
 
