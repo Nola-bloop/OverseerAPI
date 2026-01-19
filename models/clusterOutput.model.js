@@ -35,7 +35,7 @@ export default {
 	},
 	ReadChaptersFromCampaignId : async (id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT chapters.* FROM chapters INNER JOIN campaigns ON chapters.campaign = campaigns.id WHERE campaigns.id = ? ORDER BY id`, [id], (e, results) => {
+			con.query(`SELECT chapters.* FROM chapters WHERE chapters.campaign = ? ORDER BY id`, [id], (e, results) => {
 				if (!e) resolve(results)
 				else reject(e)
 			})
