@@ -17,6 +17,14 @@ export default {
 			})
 		})
 	},
+	ReadThreadFromDiscordId : async (threadId) => {
+		return new Promise((resolve, reject) =>{
+			con.query(`SELECT threads.* FROM threads WHERE threads.dc_thread_id = ?`, [threadId], (e, results) => {
+				if (!e) resolve(results[0])
+				else reject(e)
+			})
+		})
+	},
 	ReadMessagesByChapterId : async (id) => {
 		return new Promise((resolve, reject) =>{
 			con.query(`SELECT messages.* FROM messages INNER JOIN chapters ON messages.chapter = chapters.id WHERE chapters.id = ? ORDER BY messages.date_sent`, [id], (e, results) => {

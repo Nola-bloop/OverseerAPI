@@ -25,10 +25,21 @@ router.get("/character/pair/:campaignId/:name", async (req, res) => {
   }
 });
 
-// /thread/:id
-router.get("/thread/:id", async (req, res) => {
+// /thread/id/id
+router.get("/thread/id/:id", async (req, res) => {
   try{
     await controller.ReadThreadId(req).then((j) =>{
+      res.json(j)
+    })
+  }catch(e){
+    res.json({error:e.toString})
+  }
+});
+
+// /thread/pair/:threadId/:name?
+router.get("/thread/:threadId/:name?", async (req, res) => {
+  try{
+    await controller.ReadThreadFromDiscordId(req).then((j) =>{
       res.json(j)
     })
   }catch(e){

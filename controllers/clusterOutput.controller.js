@@ -117,6 +117,20 @@ export default {
 
 		return await internals.ReadAnyId("threads", req.params.id)
 	},
+	ReadThreadFromDiscordId : async (req) => {
+		if (
+			!req.params.threadId
+		) return {response:"missing param"}
+
+		let thread = await model.ReadThreadFromDiscordId(req.params.threadId)
+
+		if (!thread && req.params.name) {
+			await insertModel.InsertThread(req.params.name, req.params.threadId)
+			thread = await model.ReadThreadFromDiscordId(req.params.threadId)
+		}
+
+		return thread
+	},
 
 	//modular reads
 	ReadMessageId : async (req) => {
