@@ -43,7 +43,7 @@ export default {
 	},
 	InsertMessage : async (message, dc_message_id, chapter, speaker, date_sent, thread) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`INSERT INTO messages (message, dc_message_id, chapter, speaker, date_sent, thread) VALUES (?, ?, ?, ?, ?, ?)`, [message, dc_message_id, chapter, speaker, date_sent, thread], (e, results) => {
+			con.query(`INSERT INTO messages (message, dc_message_id, chapter, speaker, date_sent, thread) VALUES (?, ?, ?, ?, ?, ?)`, [message, dc_message_id, chapter, speaker, new Date(date_sent), thread], (e, results) => {
 				if (!e) resolve("success")
 				else reject(e)
 			})
