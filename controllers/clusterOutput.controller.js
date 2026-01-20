@@ -142,16 +142,21 @@ export default {
 		return await internals.BuildMessageObject(message)
 	},
 	ReadLatestMessagesFromChapter : async (req) => {
+		console.log("entered ReadLatestMessagesFromChapter")
 		if (
 			!req.params.chapterId
 		) return {response:"missing param"}
 
 		let messages = await model.ReadLatestMessagesFromChapter(req.params.chapterId)
+		console.log("messages:")
+		console.log(messages)
 		messages = await Promise.all(
 			messages.map(
-				m => internals.BuildMessageObject(m, true)
+				m => internals.BuildMessageObject(m)
 			)
 		)
+		console.log("messages2:")
+		console.log(messages)
 		return messages
 	},
 	ReadChapterId : async (req) => {

@@ -58,7 +58,6 @@ export default {
 			!speaker ||
 			!date_sent
 		) {
-			console.log(req.body)
 			return { response: "missing body param" };
 		}
 
