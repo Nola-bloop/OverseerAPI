@@ -10,11 +10,7 @@ import clusterOutputRouter from './routes/clusterOutput.route.js'
 import clusterInputRouter from './routes/clusterInput.route.js'
 
 app.use(cors({
-  origin: [
-    "*"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  origin: true
 }));
 
 app.use(express.json());
