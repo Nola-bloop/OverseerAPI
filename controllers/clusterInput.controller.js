@@ -43,6 +43,7 @@ export default {
 	},
 	InsertMessage : async (req) => {
 		const {
+			message,
 			dc_message_id,
 			chapter,
 			speaker,
@@ -59,7 +60,7 @@ export default {
 			return { response: "missing body param" };
 		}
 
-		return await model.InsertMessage(req.body.message, req.body.dc_message_id, req.body.chapter, req.body.speaker, req.body.dateSent, req.body.thread)
+		return await model.InsertMessage(message, dc_message_id, chapter, speaker, dateSent, thread)
 	},
 	InsertCharacter : async (req) => {
 		if (
