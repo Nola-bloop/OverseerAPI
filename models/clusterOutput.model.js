@@ -27,7 +27,7 @@ export default {
 	},
 	ReadMessagesByChapterId : async (id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT messages.* FROM messages INNER JOIN chapters ON messages.chapter = chapters.id WHERE chapters.id = ? ORDER BY messages.date_sent`, [id], (e, results) => {
+			con.query(`SELECT messages.* FROM messages WHERE messages.chapter = ? ORDER BY messages.date_sent`, [id], (e, results) => {
 				if (!e) resolve(results)
 				else reject(e)
 			})

@@ -31,7 +31,7 @@ const internals = {
 			}
 		}
 
-		chapter.messages = messages
+		chapter.messages = messages ?? []
 
 		console.log("chapter GET 2:")
 		console.log(chapter)
