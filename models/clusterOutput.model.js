@@ -71,6 +71,14 @@ export default {
 			})
 		})
 	},
+	ReadChapterGroupByCampaignAndName : async (campaignId, name) => {
+		return new Promise((resolve, reject) =>{
+			con.query(`SELECT chapter_groups.* FROM chapter_groups WHERE chapter_groups.campaign = ? AND chapter_groups.name = ? ORDER BY id`, [campaignId, name], (e, results) => {
+				if (!e) resolve(results[0])
+				else reject(e)
+			})
+		})
+	},
 	ReadChaptersFromCampaignId : async (id) => {
 		return new Promise((resolve, reject) =>{
 			con.query(`SELECT chapters.* FROM chapters WHERE chapters.campaign = ? ORDER BY id`, [id], (e, results) => {

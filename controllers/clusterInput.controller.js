@@ -1,6 +1,6 @@
 import model from "../models/clusterInput.model.js"
-import internals from "./clusterOutput.controller.js"
 import readModel from "../models/clusterOutput.model.js"
+import internals from "./clusterOutput.controller.js"
 
 export default {
 	InsertCampaign : async (req) => {
