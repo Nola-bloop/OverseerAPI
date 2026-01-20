@@ -1,5 +1,6 @@
 import model from "../models/clusterInput.model.js"
 import internals from "./clusterOutput.controller.js"
+import readModel from "../models/clusterOutput.model.js"
 
 export default {
 	InsertCampaign : async (req) => {
@@ -16,7 +17,7 @@ export default {
 			!req.query.campaign
 		) return {response:"missing query param"}
 
-		let chapter = internals.ReadChapterGroupByCampaignAndName(req.query.campaign, req.query.name)
+		let chapter = readModel.ReadChapterGroupByCampaignAndName(req.query.campaign, req.query.name)
 
 		if (chapter) return {response:"Nothing to do."}
 
