@@ -118,7 +118,8 @@ export default {
 
 		let thread = await model.ReadThreadFromDiscordId(req.params.threadId)
 
-		console.log()
+		console.log("ReadThreadFromDiscordId")
+		console.log(req.params.name)
 
 		if (!thread && req.params.name) {
 			await insertModel.InsertThread(req.params.name, req.params.threadId)
