@@ -26,22 +26,12 @@ const internals = {
 			messages = "unloaded"
 		}
 		else{
-			console.log("not skipping")
 			messages = await model.ReadMessagesByChapterId(chapter.id)
-			console.log("messages:")
-			console.log(messages)
-			// messages = await Promise.all(
-			// 	messages.map(
-			// 		m => internals.ReadMessageId(m.id)
-			// 	)
-			// )
 			messages = await Promise.all(
 				messages.map(
 					m => internals.BuildMessageObject(m)
 				)
 			)
-			console.log("messages2:")
-			console.log(messages)
 		}
 
 		chapter.messages = messages ?? []
