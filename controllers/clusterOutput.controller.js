@@ -7,21 +7,13 @@ const internals = {
 		return thing ?? {response:"Nothing found."}
 	},
 	BuildMessageObject : async(message) => {
-		console.log("entered BuildMessageObject")
 		if (!message) return {response:"No message found."}
 
 		let speaker = await internals.ReadAnyId("characters", message.speaker)
 		let thread = await internals.ReadAnyId("threads", message.thread)
-		console.log("speaker:")
-		console.log(speaker)
-		console.log("thread:")
-		console.log(thread)
 
 		message.speaker = speaker
 		message.thread = thread
-
-		console.log("message-built:")
-		console.log(message)
 
 		return message
 	},
@@ -58,7 +50,6 @@ const internals = {
 		return chapterGroup
 	},
 	BuildCampaignObject : async(campaign) =>{
-		console.log("Made it to campaign builder")
 		if (!campaign) return {response:"No campaign found."}
 
 		let chapterGroups = await model.ReadChapterGroupsByCampaignId(campaign.id)
@@ -68,9 +59,6 @@ const internals = {
 			id: 0,
 			name:"Uncategorized",
 		})
-
-		console.log(chapterGroups)
-		console.log(chapters)
 
 		for(let i = 0; i < chapterGroups.length; i++){
 			chapterGroups[i].chapters = []
@@ -85,8 +73,6 @@ const internals = {
 		})
 
 		campaign.chapter_groups = chapterGroups
-
-		console.log("Built Campaign: "+campaign)
 
 		return campaign
 	},
@@ -132,6 +118,8 @@ export default {
 
 		let thread = await model.ReadThreadFromDiscordId(req.params.threadId)
 
+		console.log()
+
 		if (!thread && req.params.name) {
 			await insertModel.InsertThread(req.params.name, req.params.threadId)
 			thread = await model.ReadThreadFromDiscordId(req.params.threadId)
@@ -150,21 +138,21 @@ export default {
 		return await internals.BuildMessageObject(message)
 	},
 	ReadLatestMessagesFromChapter : async (req) => {
-		console.log("entered ReadLatestMessagesFromChapter")
+		//console.log("entered ReadLatestMessagesFromChapter")
 		if (
 			!req.params.chapterId
 		) return {response:"missing param"}
 
 		let messages = await model.ReadLatestMessagesFromChapter(req.params.chapterId)
-		console.log("messages:")
-		console.log(messages)
+		//console.log("messages:")
+		//console.log(messages)
 		messages = await Promise.all(
 			messages.map(
 				m => internals.BuildMessageObject(m)
 			)
 		)
-		console.log("messages2:")
-		console.log(messages)
+		//console.log("messages2:")
+		//console.log(messages)
 		return messages
 	},
 	ReadChapterId : async (req) => {
@@ -219,13 +207,11 @@ export default {
 		return await internals.BuildChapterGroupObject(chapterGroup)
 	},
 	ReadCampaignId : async (req) => {
-		console.log("Made it to campaign/id controller")
 		if (
 			!req.params.id
 		) return {response:"missing param"}
 
 		let campaign = await internals.ReadAnyId("campaigns", req.params.id)
-		console.log("uniselect : "+campaign.name)
 
 		return await internals.BuildCampaignObject(campaign)
 	},

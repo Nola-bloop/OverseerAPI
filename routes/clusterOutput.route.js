@@ -60,7 +60,6 @@ router.get("/message/id/:id", async (req, res) => {
 
 // /message/latest/:chapterId
 router.get("/message/latest/:chapterId", async (req, res) => {
-  console.log("entered /message/latest/:chapterId")
   try{
     await controller.ReadLatestMessagesFromChapter(req).then((j) =>{
       res.json(j)
@@ -105,7 +104,6 @@ router.get("/chapterGroup/:id", async (req, res) => {
 
 // /campaign/id/:id
 router.get("/campaign/id/:id", async (req, res) => {
-  console.log("Made it to campaign/id route")
   try{
     await controller.ReadCampaignId(req).then((j) =>{
       res.json(j)
