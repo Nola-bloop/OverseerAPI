@@ -98,6 +98,7 @@ CREATE TABLE messages (
 	speaker INTEGER NOT NULL,
 	date_sent DATETIME NOT NULL,
 	thread INTEGER,
+	
 
 	FOREIGN KEY (chapter) REFERENCES chapters(id) ON DELETE CASCADE,
 	FOREIGN KEY (speaker) REFERENCES characters(id) ON DELETE CASCADE

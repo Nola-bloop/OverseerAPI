@@ -4,9 +4,20 @@ import controller from "../controllers/clusterOutput.controller.js"
 const router = express.Router();
 
 // /character/:id
-router.get("/character/:id", async (req, res) => {
+router.get("/character/id/:id", async (req, res) => {
   try{
     await controller.ReadCharacterId(req).then((j) =>{
+      res.json(j)
+    })
+  }catch(e){
+    res.json({error:e.toString})
+  }
+});
+
+// /character/pair/:campaignId/:name
+router.get("/character/pair/:campaignId/:name", async (req, res) => {
+  try{
+    await controller.ReadCharacterFromCampaignAndName(req).then((j) =>{
       res.json(j)
     })
   }catch(e){
@@ -26,9 +37,20 @@ router.get("/thread/:id", async (req, res) => {
 });
 
 // /message/:id
-router.get("/message/:id", async (req, res) => {
+router.get("/message/id/:id", async (req, res) => {
   try{
     await controller.ReadMessageId(req).then((j) =>{
+      res.json(j)
+    })
+  }catch(e){
+    res.json({error:e.toString})
+  }
+});
+
+// /message/latest/:chapterId
+router.get("/message/latest/:chapterId", async (req, res) => {
+  try{
+    await controller.ReadLatestMessagesFromChapter(req).then((j) =>{
       res.json(j)
     })
   }catch(e){

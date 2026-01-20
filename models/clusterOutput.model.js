@@ -9,9 +9,39 @@ export default {
 			})
 		})
 	},
+	ReadCharacterFromCampaignAndName : async (campaignId, name) => {
+		return new Promise((resolve, reject) =>{
+			con.query(`SELECT characters.* FROM characters WHERE characters.campaign = ? AND characters.name = ?`, [campaignId, name], (e, results) => {
+				if (!e) resolve(results[0])
+				else reject(e)
+			})
+		})
+	},
 	ReadMessagesByChapterId : async (id) => {
 		return new Promise((resolve, reject) =>{
 			con.query(`SELECT messages.* FROM messages INNER JOIN chapters ON messages.chapter = chapters.id WHERE chapters.id = ? ORDER BY messages.date_sent`, [id], (e, results) => {
+				if (!e) resolve(results)
+				else reject(e)
+			})
+		})
+	},
+	ReadLatestMessagesFromChapter : async (id) => {
+		//get latest message from each thread of each chapter
+		return new Promise((resolve, reject) =>{
+			con.query(`SELECT *
+				FROM (
+				    SELECT
+				        m.*,
+				        ROW_NUMBER() OVER (
+				            PARTITION BY m.thread
+				            ORDER BY m.date_sent DESC
+				        ) AS rn
+				    FROM messages m
+				    WHERE m.chapter = ?
+				      AND m.thread IS NOT NULL
+				) ranked
+				WHERE rn = 1`
+				,[id], (e, results) => {
 				if (!e) resolve(results)
 				else reject(e)
 			})

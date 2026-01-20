@@ -1,13 +1,12 @@
 import model from "../models/clusterOutput.model.js"
+import insertModel from "../models/clusterInput.mode.js"
 
 const internals = {
 	ReadAnyId : async(table, id) => {
 		let thing = await model.ReadAnyId(table, id)
 		return thing ?? {response:"Nothing found."}
 	},
-	ReadMessageId : async(id) => {
-		let message = await internals.ReadAnyId("messages", id)
-
+	BuildMessageObject : async(id) => {
 		if (!message) return {response:"No message found."}
 
 		let speaker = await internals.ReadAnyId("characters", message.speaker)
@@ -97,6 +96,20 @@ export default {
 
 		return await internals.ReadAnyId("characters", req.params.id)
 	},
+	ReadCharacterFromCampaignAndName : async (req) => {
+		if (
+			!req.params.campaignId ||
+			!req.params.name
+		) return {response:"missing param"}
+
+		let character = await model.ReadCharacterFromCampaignAndName(req.params.campaignId, req.params.name)
+
+		if (!character) await insertModel.InsertCharacter(req.params.name, "...", "...", req.params.campaignId)
+
+		character = await model.ReadCharacterFromCampaignAndName(req.params.campaignId, req.params.name)
+
+		return character
+	},
 	ReadThreadId : async (req) => {
 		if (
 			!req.params.id
@@ -110,8 +123,22 @@ export default {
 		if (
 			!req.params.id
 		) return {response:"missing param"}
+		let message = await internals.ReadAnyId("messages", req.params.id)
 
-		return await internals.ReadMessageId(req.params.id)
+		return await internals.BuildMessageObject(message)
+	},
+	ReadLatestMessagesFromChapter : async (req) => {
+		if (
+			!req.params.chapterId
+		) return {response:"missing param"}
+
+		let messages = await model.ReadLatestMessagesFromChapter(req.params.chapterId)
+		messages = await Promise.all(
+			messages.map(
+				m => internals.BuildMessageObject(m, true)
+			)
+		)
+		return messages
 	},
 	ReadChapterId : async (req) => {
 		if (
