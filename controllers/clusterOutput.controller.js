@@ -118,7 +118,7 @@ export default {
 
 		let thread = await model.ReadThreadFromDiscordId(req.params.threadId)
 
-		console.log("ReadThreadFromDiscordId")
+		console.log("req.params.name:")
 		console.log(req.params.name)
 
 		if (!thread && req.params.name) {

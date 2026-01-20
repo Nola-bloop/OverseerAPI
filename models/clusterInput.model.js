@@ -59,7 +59,7 @@ export default {
 	},
 	InsertThread : async (name, dc_thread_id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`INSERT INTO characters (name, dc_thread_id) VALUES (?, ?)`, [name, dc_thread_id], (e, results) => {
+			con.query(`INSERT INTO threads (name, dc_thread_id) VALUES (?, ?)`, [name, dc_thread_id], (e, results) => {
 				if (!e) resolve("success")
 				else reject(e)
 			})
