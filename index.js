@@ -1,4 +1,6 @@
 import express from 'express'
+import cors from "cors";
+
 const app = express()
 const PORT = 8889
 
@@ -6,6 +8,15 @@ const PORT = 8889
 import usersRouter from './routes/users.route.js'
 import clusterOutputRouter from './routes/clusterOutput.route.js'
 import clusterInputRouter from './routes/clusterInput.route.js'
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://yourdomain.com"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 app.use(express.json());
 app.use("/users", usersRouter);
