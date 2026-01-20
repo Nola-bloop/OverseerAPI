@@ -31,8 +31,10 @@ const internals = {
 			}
 		}
 
-
 		chapter.messages = messages
+
+		console.log("chapter GET 2:")
+		console.log(chapter)
 
 		return chapter
 	},
