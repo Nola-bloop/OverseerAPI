@@ -7,13 +7,21 @@ const internals = {
 		return thing ?? {response:"Nothing found."}
 	},
 	BuildMessageObject : async(id) => {
+		console.log("entered BuildMessageObject")
 		if (!message) return {response:"No message found."}
 
 		let speaker = await internals.ReadAnyId("characters", message.speaker)
 		let thread = await internals.ReadAnyId("threads", message.thread)
+		console.log("speaker:")
+		console.log(speaker)
+		console.log("thread:")
+		console.log(thread)
 
 		message.speaker = speaker
 		message.thread = thread
+
+		console.log("message-built:")
+		console.log(message)
 
 		return message
 	},
