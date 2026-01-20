@@ -1,5 +1,5 @@
 import model from "../models/clusterOutput.model.js"
-import insertModel from "../models/clusterInput.mode.js"
+import insertModel from "../models/clusterInput.model.js"
 
 const internals = {
 	ReadAnyId : async(table, id) => {
