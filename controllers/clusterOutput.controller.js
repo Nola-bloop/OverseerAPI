@@ -21,14 +21,16 @@ const internals = {
 		if (!chapter) return {response:"No chapter found."}
 
 		let messages
-		if (skipMessages) 
+		if (skipMessages === true) 
 			messages = "unloaded"
 		else{
 			messages = await model.ReadMessagesByChapterId(chapter.id)
 
-			for (let i = 0; i < messages.length; i++) {
-				messages[i] = await internals.ReadMessageId(messages[i].id)
-			}
+			messages = await Promise.all(
+				messages.map(
+					m => internals.ReadMessageId(m.id)
+				)
+			)
 		}
 
 		chapter.messages = messages ?? []
