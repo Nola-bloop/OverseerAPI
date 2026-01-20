@@ -52,12 +52,14 @@ export default {
 		} = req.body;
 
 		if (
+			!message ||
 			!dc_message_id ||
 			!chapter ||
 			!speaker ||
 			!dateSent
 		) {
 			return { response: "missing body param" };
+			console.log(req.body)
 		}
 
 		return await model.InsertMessage(message, dc_message_id, chapter, speaker, dateSent, thread)
