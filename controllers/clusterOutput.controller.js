@@ -6,7 +6,7 @@ const internals = {
 		let thing = await model.ReadAnyId(table, id)
 		return thing ?? {response:"Nothing found."}
 	},
-	BuildMessageObject : async(id) => {
+	BuildMessageObject : async(message) => {
 		console.log("entered BuildMessageObject")
 		if (!message) return {response:"No message found."}
 
