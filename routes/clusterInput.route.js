@@ -37,7 +37,7 @@ router.get("/chapter", (req, res) => {
 });
 
 // /message(have message in body)
-router.get("/message", (req, res) => {
+router.post("/message", (req, res) => {
   try{
     controller.InsertMessage(req).then((j) =>{
       res.json(j)
