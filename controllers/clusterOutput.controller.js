@@ -164,6 +164,8 @@ export default {
 		) return {response:"missing param"}
 
 		let chapter = await internals.ReadAnyId("chapters", req.params.id)
+		console.log("chapter id GET:")
+		console.log(chapter)
 		return await internals.BuildChapterObject(chapter)
 	},
 	ReadChapterByCampaignAndDiscordId : async (req) => {
