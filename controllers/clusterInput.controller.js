@@ -42,15 +42,24 @@ export default {
 		return await model.InsertChapter(req.query.chapterGroup, req.query.chapterId)
 	},
 	InsertMessage : async (req) => {
-		if (
-			!req.body.dc_message_id ||
-			!req.body.chapter ||
-			!req.body.speaker ||
-			!req.body.dateSent ||
-			!req.body.thread
-		) return {response:"missing body param"}
+		const {
+			dc_message_id,
+			chapter,
+			speaker,
+			dateSent,
+			thread
+		} = req.body;
 
-		return await model.InsertMessage(req.body.dc_message_id, req.query.chapter, req.query.speaker, req.query.dateSent, req.query.thread)
+		if (
+			!dc_message_id ||
+			!chapter ||
+			!speaker ||
+			!dateSent
+		) {
+			return { response: "missing body param" };
+		}
+
+		return await model.InsertMessage(req.body.message, req.body.dc_message_id, req.body.chapter, req.body.speaker, req.body.dateSent, req.body.thread)
 	},
 	InsertCharacter : async (req) => {
 		if (
