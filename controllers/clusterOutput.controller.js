@@ -36,9 +36,6 @@ const internals = {
 
 		chapter.messages = messages ?? []
 
-		console.log("chapter GET 2:")
-		console.log(chapter)
-
 		return chapter
 	},
 	BuildChapterGroupObject : async (chapterGroup) => {
@@ -119,17 +116,17 @@ export default {
 	ReadThreadFromDiscordId : async (req) => {
 
 		if (
-			!req.body.threadId
+			!req.body.dc_thread_id
 		) return {response:"missing body"}
 
-		let thread = await model.ReadThreadFromDiscordId(req.body.threadId)
+		let thread = await model.ReadThreadFromDiscordId(req.body.dc_thread_id)
 
 		console.log("req.body.name:")
 		console.log(req.body.name)
 
 		if (!thread && req.body.name) {
-			await insertModel.InsertThread({body : {name:req.body.name, dc_thread_id:req.body.threadId}})
-			thread = await model.ReadThreadFromDiscordId(req.body.threadId)
+			await insertModel.InsertThread({body : {name:req.body.name, dc_thread_id:req.body.dc_thread_id}})
+			thread = await model.ReadThreadFromDiscordId(req.body.dc_thread_id)
 		}
 		console.log("thread")
 		console.log(thread)
