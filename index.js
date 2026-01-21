@@ -1,8 +1,17 @@
 import express from 'express'
 import cors from "cors";
 
+import fs from 'fs';
+import http from 'http';
+import https from 'https';
+var privateKey  = fs.readFileSync('overseer-web.key', 'utf8');
+var certificate = fs.readFileSync('overseer-web.crt', 'utf8');
+
+var credentials = {key: privateKey, cert: certificate};
+
 const app = express()
 const PORT = 8889
+
 
 //routes
 import usersRouter from './routes/users.route.js'
@@ -25,3 +34,6 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
+
+var httpsServer = https.createServer(credentials, app);
+httpsServer.listen(443);
