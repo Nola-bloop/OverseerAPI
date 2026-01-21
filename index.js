@@ -4,10 +4,11 @@ import cors from "cors";
 import fs from 'fs';
 import http from 'http';
 import https from 'https';
-var privateKey  = fs.readFileSync('overseer-web.key', 'utf8');
-var certificate = fs.readFileSync('overseer-web.crt', 'utf8');
 
-var credentials = {key: privateKey, cert: certificate};
+const credentials = {
+  key: fs.readFileSync('privkey.pem'),
+  cert: fs.readFileSync('fullchain.pem')
+};
 
 const app = express()
 const PORT = 8889
