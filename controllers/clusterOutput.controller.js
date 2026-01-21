@@ -117,18 +117,19 @@ export default {
 		return await internals.ReadAnyId("threads", req.params.id)
 	},
 	ReadThreadFromDiscordId : async (req) => {
+
 		if (
-			!req.params.threadId
-		) return {response:"missing param"}
+			!req.body.threadId
+		) return {response:"missing body"}
 
-		let thread = await model.ReadThreadFromDiscordId(req.params.threadId)
+		let thread = await model.ReadThreadFromDiscordId(req.body.threadId)
 
-		console.log("req.params.name:")
-		console.log(req.params.name)
+		console.log("req.body.name:")
+		console.log(req.body.name)
 
-		if (!thread && req.params.name) {
-			await insertModel.InsertThread({body : {name:req.params.name, dc_thread_id:req.params.threadId}})
-			thread = await model.ReadThreadFromDiscordId(req.params.threadId)
+		if (!thread && req.body.name) {
+			await insertModel.InsertThread({body : {name:req.body.name, dc_thread_id:req.body.threadId}})
+			thread = await model.ReadThreadFromDiscordId(req.body.threadId)
 		}
 		console.log("thread")
 		console.log(thread)
