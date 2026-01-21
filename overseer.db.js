@@ -5,5 +5,6 @@ export default mysql.createConnection({
   host: process.env.DBHOST,
   user: process.env.DBUSER,
   password: process.env.DBPWD,
-  database: process.env.DBNAME
+  database: process.env.DBNAME,
+  charset: 'utf8mb4'
 })
