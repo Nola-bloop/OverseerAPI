@@ -75,11 +75,15 @@ export default {
 		return await model.InsertCharacter(req.query.name, req.query.boon, req.query.bio, req.query.campaign, req.query.profile_picture, req.query.player)
 	},
 	InsertThread : async (req) => {
+		const {
+			name,
+			dc_thread_id
+		} = req.body;
 		if (
-			!req.query.name ||
-			!req.query.dc_thread_id
+			!name ||
+			!dc_thread_id
 		) return {response:"missing query param"}
 
-		return await model.InsertThread(req.query.name, req.query.dc_thread_id)
+		return await model.InsertThread(name, dc_thread_id)
 	},
 }

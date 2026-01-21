@@ -48,7 +48,7 @@ router.post("/message", (req, res) => {
 });
 
 // /thread?name&dc_thread_id
-router.get("/thread", (req, res) => {
+router.post("/thread", (req, res) => {
   try{
     controller.InsertCampaign(req).then((j) =>{
       res.json(j)
@@ -59,7 +59,7 @@ router.get("/thread", (req, res) => {
 });
 
 // /chapter?chapterGroup&chapterId
-router.put("/chapter", (req, res) => {
+router.get("/chapter", (req, res) => {
   try{
     controller.UpdateChapterToGroupRelation(req).then((j) =>{
       res.json(j)
