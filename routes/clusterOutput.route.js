@@ -26,7 +26,7 @@ router.get("/character/pair/:campaignId/:name", async (req, res) => {
 });
 
 // /thread/id/id
-router.post("/thread/id/:id", async (req, res) => {
+router.get("/thread/id/:id", async (req, res) => {
   try{
     await controller.ReadThreadId(req).then((j) =>{
       res.json(j)
