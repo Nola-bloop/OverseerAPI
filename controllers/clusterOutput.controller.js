@@ -121,8 +121,8 @@ export default {
 
 		let thread = await model.ReadThreadFromDiscordId(req.body.dc_thread_id)
 
-		console.log("req.body.name:")
-		console.log(req.body.name)
+		console.log("req.body:")
+		console.log(req.body)
 
 		if (!thread && req.body.name) {
 			let res = await insertModel.InsertThread({body : {name:req.body.name, dc_thread_id:req.body.dc_thread_id}})
