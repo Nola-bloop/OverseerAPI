@@ -3,7 +3,7 @@ import insertModel from "../models/clusterInput.model.js"
 
 const internals = {
 	ReadAnyId : async(table, id) => {
-		let thing = await model.ReadAnyId(table, id)
+		let thing = await model.ReadAnyId(table, id).catch(e=>console.log(e))
 		return thing ?? {response:"Nothing found."}
 	},
 	BuildMessageObject : async(message) => {
@@ -22,11 +22,10 @@ const internals = {
 
 		let messages
 		if (skipMessages === true){
-			console.log("skipping") 
 			messages = "unloaded"
 		}
 		else{
-			messages = await model.ReadMessagesByChapterId(chapter.id)
+			messages = await model.ReadMessagesByChapterId(chapter.id).catch(e=>console.log(e))
 			messages = await Promise.all(
 				messages.map(
 					m => internals.BuildMessageObject(m)
@@ -41,7 +40,7 @@ const internals = {
 	BuildChapterGroupObject : async (chapterGroup) => {
 		if (!chapterGroup) return {response:"No chapter group found."}
 
-		let chapters = await model.ReadChaptersByChapterGroupId(chapterGroup.id)
+		let chapters = await model.ReadChaptersByChapterGroupId(chapterGroup.id).catch(e=>console.log(e))
 
 		chapterGroup.chapters = chapters
 
@@ -54,8 +53,8 @@ const internals = {
 	BuildCampaignObject : async(campaign) =>{
 		if (!campaign) return {response:"No campaign found."}
 
-		let chapterGroups = await model.ReadChapterGroupsByCampaignId(campaign.id)
-		let chapters = await model.ReadChaptersFromCampaignId(campaign.id)
+		let chapterGroups = await model.ReadChapterGroupsByCampaignId(campaign.id).catch(e=>console.log(e))
+		let chapters = await model.ReadChaptersFromCampaignId(campaign.id).catch(e=>console.log(e))
 
 		chapterGroups.push({
 			id: 0,
@@ -98,11 +97,11 @@ export default {
 			!req.params.name
 		) return {response:"missing param"}
 
-		let character = await model.ReadCharacterFromCampaignAndName(req.params.campaignId, req.params.name)
+		let character = await model.ReadCharacterFromCampaignAndName(req.params.campaignId, req.params.name).catch(e=>console.log(e))
 
-		if (!character) await insertModel.InsertCharacter(req.params.name, "...", "...", req.params.campaignId)
+		if (!character) await insertModel.InsertCharacter(req.params.name, "...", "...", req.params.campaignId).catch(e=>console.log(e))
 
-		character = await model.ReadCharacterFromCampaignAndName(req.params.campaignId, req.params.name)
+		character = await model.ReadCharacterFromCampaignAndName(req.params.campaignId, req.params.name).catch(e=>console.log(e))
 
 		return character
 	},
@@ -121,16 +120,11 @@ export default {
 
 		let thread = await model.ReadThreadFromDiscordId(req.body.dc_thread_id).catch(e=>console.log(e))
 
-		console.log("req.body:")
-		console.log(req.body)
-
 		if (!thread && req.body.dc_thread_id) {
 			let res = await insertModel.InsertThread(req.body.name, req.body.dc_thread_id).catch(e=>console.log(e))
-			console.log(res)
+
 			thread = await model.ReadThreadFromDiscordId(req.body.dc_thread_id).catch(e=>console.log(e))
 		}
-		console.log("thread")
-		console.log(thread)
 
 		return thread
 	},
@@ -145,21 +139,16 @@ export default {
 		return await internals.BuildMessageObject(message)
 	},
 	ReadLatestMessagesFromChapter : async (req) => {
-		//console.log("entered ReadLatestMessagesFromChapter")
 		if (
 			!req.params.chapterId
 		) return {response:"missing param"}
 
 		let messages = await model.ReadLatestMessagesFromChapter(req.params.chapterId)
-		//console.log("messages:")
-		//console.log(messages)
 		messages = await Promise.all(
 			messages.map(
 				m => internals.BuildMessageObject(m)
 			)
 		)
-		//console.log("messages2:")
-		//console.log(messages)
 		return messages
 	},
 	ReadChapterId : async (req) => {
@@ -175,7 +164,7 @@ export default {
 			!req.params.campaignId ||
 			!req.params.dc_channel_id
 		) return {response:"missing param"}
-		let chapter = await model.ReadChapterByCampaignAndDiscordId(req.params.campaignId, req.params.dc_channel_id)
+		let chapter = await model.ReadChapterByCampaignAndDiscordId(req.params.campaignId, req.params.dc_channel_id).catch(e=>console.log(e))
 
 		return await internals.BuildChapterObject(chapter)
 	},
@@ -183,7 +172,7 @@ export default {
 		if (
 			!req.params.campaignId
 		) return {response:"missing param"}
-		let chapters = await model.ReadAllChaptersFromCampaign(req.params.campaignId)
+		let chapters = await model.ReadAllChaptersFromCampaign(req.params.campaignId).catch(e=>console.log(e))
 
 		if (!chapters || chapters.length === 0) return []
 
@@ -210,7 +199,7 @@ export default {
 			!req.params.name
 		) return {response:"missing param"}
 
-		let chapterGroup = await model.ReadChapterGroupByPair(req.params.campaignId, req.params.name)
+		let chapterGroup = await model.ReadChapterGroupByPair(req.params.campaignId, req.params.name).catch(e=>console.log(e))
 		return await internals.BuildChapterGroupObject(chapterGroup)
 	},
 	ReadCampaignId : async (req) => {
@@ -227,11 +216,11 @@ export default {
 			!req.params.dc_guild_id
 		) return {response:"missing param"}
 
-		let campaign = await model.ReadCampaignByGuildId(req.params.dc_guild_id)
+		let campaign = await model.ReadCampaignByGuildId(req.params.dc_guild_id).catch(e=>console.log(e))
 
 		return await internals.BuildCampaignObject(campaign)
 	},
 	ReadAllCampaigns : async (req) => {
-		return await model.ReadAllCampaigns()
+		return await model.ReadAllCampaigns().catch(e=>console.log(e))
 	},
 }
