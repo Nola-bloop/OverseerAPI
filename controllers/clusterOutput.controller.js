@@ -119,15 +119,15 @@ export default {
 			!req.body.dc_thread_id
 		) return {response:"missing body"}
 
-		let thread = await model.ReadThreadFromDiscordId(req.body.dc_thread_id)
+		let thread = await model.ReadThreadFromDiscordId(req.body.dc_thread_id).catch(e=>console.log(e))
 
 		console.log("req.body:")
 		console.log(req.body)
 
-		if (!thread && req.body.name) {
-			let res = await insertModel.InsertThread({body : {name:req.body.name, dc_thread_id:req.body.dc_thread_id}})
+		if (!thread && req.body.dc_thread_id) {
+			let res = await insertModel.InsertThread({body : {name:req.body.name, dc_thread_id:req.body.dc_thread_id}}).catch(e=>console.log(e))
 			console.log(res)
-			thread = await model.ReadThreadFromDiscordId(req.body.dc_thread_id)
+			thread = await model.ReadThreadFromDiscordId(req.body.dc_thread_id).catch(e=>console.log(e))
 		}
 		console.log("thread")
 		console.log(thread)
