@@ -37,7 +37,7 @@ router.post("/thread/id/:id", async (req, res) => {
 });
 
 // /thread/pair/
-router.get("/thread/pair/", async (req, res) => {
+router.post("/thread/pair/", async (req, res) => {
   try{
     await controller.ReadThreadFromDiscordId(req).then((j) =>{
       res.json(j)
