@@ -61,6 +61,10 @@ export default {
 			return { response: "missing body param" };
 		}
 
+		let message = readModel.ReadMessageFromDiscordId(dc_message_id);
+
+		if (message) return {response:"Message already exists!"}
+
 		return await model.InsertMessage(message, dc_message_id, chapter, speaker, date_sent, thread)
 	},
 	InsertCharacter : async (req) => {

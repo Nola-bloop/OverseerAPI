@@ -33,6 +33,14 @@ export default {
 			})
 		})
 	},
+	ReadMessageFromDiscordId: async (id) => {
+		return new Promise((resolve, reject) =>{
+			con.query(`SELECT messages.* FROM messages WHERE messages.dc_message_id = ?`,[id], (e, results)=>{
+				if (!e) resolve(results[0])
+				else reject(e)
+			})
+		})
+	},
 	ReadLatestMessagesFromChapter : async (id) => {
 		//get latest message from each thread of each chapter
 		return new Promise((resolve, reject) =>{
