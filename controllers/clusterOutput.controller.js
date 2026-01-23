@@ -126,6 +126,8 @@ export default {
 			thread = await model.ReadThreadFromDiscordId(req.body.dc_thread_id).catch(e=>console.log(e))
 		}
 
+		console.log("thread name: "+thread.name)
+
 		return thread
 	},
 
