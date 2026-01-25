@@ -35,7 +35,7 @@ export default {
 	},
 	ReadMessageFromDiscordId: async (id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT messages.* FROM messages WHERE messages.dc_message_id = ?`,[id], (e, results)=>{
+			con.query(`SELECT id, dc_message_id, chapter, speaker, date_sent, thread FROM messages WHERE messages.dc_message_id = ?`,[id], (e, results)=>{
 				if (!e) resolve(results[0])
 				else reject(e)
 			})
