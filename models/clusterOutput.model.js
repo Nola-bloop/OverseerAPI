@@ -27,7 +27,7 @@ export default {
 	},
 	ReadMessagesByChapterId : async (id) => {
 		return new Promise((resolve, reject) =>{
-			con.query(`SELECT messages.* FROM messages WHERE messages.chapter = ? ORDER BY messages.date_sent`, [id], (e, results) => {
+			con.query(`SELECT messages.* FROM messages WHERE messages.chapter = ? ORDER BY messages.date_sent, messages.id`, [id], (e, results) => {
 				if (!e) resolve(results)
 				else reject(e)
 			})
