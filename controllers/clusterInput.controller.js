@@ -61,7 +61,7 @@ export default {
 			return { response: "missing body param" };
 		}
 
-		let messageTemp = readModel.ReadMessageFromDiscordId(dc_message_id);
+		let messageTemp = await readModel.ReadMessageFromDiscordId(dc_message_id);
 
 		if (messageTemp) {
 			console.log(messageTemp)
