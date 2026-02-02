@@ -64,8 +64,8 @@ export default {
 		let messageTemp = readModel.ReadMessageFromDiscordId(dc_message_id);
 
 		if (messageTemp) {
-			return {response:"Message already exists!"}
 			console.log(messageTemp)
+			return {response:"Message already exists!"}
 		}
 
 		return await model.InsertMessage(message, dc_message_id, chapter, speaker, date_sent, thread)
